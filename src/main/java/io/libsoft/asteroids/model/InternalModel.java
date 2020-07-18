@@ -38,6 +38,13 @@ public class InternalModel {
     return uuid.get();
   }
 
+  public void setGameState(GameState gameState) {
+    this.gameState = gameState;
+  }
+
+  public GameState getGameState() {
+    return gameState;
+  }
 
   private static class InstanceHolder {
 

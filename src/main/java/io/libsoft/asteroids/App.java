@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -47,11 +46,12 @@ public class App extends Application {
     controller.setModel(InternalModel.getInstance());
 
     Scene scene = new Scene(root);
-//    stage.setFullScreen(true);
     stage.setScene(scene);
     stage.show();
-//    setStageSize(stage, root);
-    stage.sizeToScene();
+//    stage.setMaximized(true);
+//    stage.sizeToScene();
+    stage.setWidth(500);
+    stage.setHeight(500);
     stage.setOnCloseRequest(event -> {
       System.exit(2);
     });

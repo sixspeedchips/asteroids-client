@@ -4,13 +4,18 @@ VBox {
   -fx-spacing: 10px;
 }
 
-VBox#labelBox {
-  -fx-spacing: -10px;
+GridPane#infoBox{
+
+  -fx-alignment: top-left;
+  -fx-background-color: lightblue;
+  -fx-font-size: 120%;
+  -fx-border-color: black;
+  -fx-indent: 20%;
+}
+
+VBox {
   -fx-background-color: lightgrey;
   -fx-border-color: black;
-  -fx-label-padding: 1px;
-  -fx-pref-height: 50px;
-  -fx-pref-width: 225px;
   -fx-horizontal-grid-lines-visible: true;
 }
 
@@ -22,9 +27,7 @@ HBox {
 }
 
 
-Label {
-  -fx-font-size: 12pt;
-}
+
 
 Button, ToggleButton {
   -fx-pref-width: 50px;
@@ -39,7 +42,7 @@ Spinner {
   -fx-min-width: 100px;
 }
 
-Pane#generationContainer {
+Pane {
   -fx-background-color: black;
 }
 

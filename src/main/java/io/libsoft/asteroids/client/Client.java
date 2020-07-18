@@ -86,7 +86,7 @@ public class Client implements Runnable {
       Message message = null;
       try {
         message = (Message) ois.readObject();
-
+//        System.out.println(GsonService.getInstance().toJson(message));
         // accepts the new UUID and replies with a subscription request
         // to the the current game state
         if (uuid == null && message.getMessageType() == MessageType.ASSIGN_UUID) {
@@ -96,6 +96,9 @@ public class Client implements Runnable {
           sendMessage(r);
           Message m = Message.build().messageType(MessageType.SUBSCRIBE).sign(model.getUUID());
           sendMessage(m);
+        }
+        else if (message.getMessageType() == MessageType.GAME_STATE){
+          model.setGameState(message.getGameState());
         }
       } catch (IOException e) {
         e.printStackTrace();

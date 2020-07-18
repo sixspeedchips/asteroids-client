@@ -1,6 +1,9 @@
 package io.libsoft.asteroids.view;
 
 
+import io.libsoft.asteroids.model.InternalModel;
+import io.libsoft.messenger.GameState;
+import io.libsoft.messenger.PEntity;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -12,10 +15,8 @@ public class ModelViewer extends Canvas {
 
   public ModelViewer() {
     gc = getGraphicsContext2D();
-    setWidth(500);
-    setHeight(500);
     setOnMouseDragged(event -> {
-      System.out.printf("%f, %f\n",event.getX(), event.getY());
+      System.out.printf("%f, %f\n", event.getX(), event.getY());
     });
   }
 
@@ -28,9 +29,17 @@ public class ModelViewer extends Canvas {
    * Renders the model to the screen via a jfx canvas
    */
   public void draw() {
-    gc.setFill(Color.BLACK);
-    gc.fillOval(0,0, getWidth(), getHeight());
-
+    gc.setFill(Color.LIGHTSLATEGRAY);
+    gc.fillRect(0, 0, getWidth(), getHeight());
+    GameState gs = InternalModel.getInstance().getGameState();
+    if (gs != null) {
+      for (PEntity pEntity : gs.getPEntities()) {
+        gc.setFill(Color.RED);
+        gc.fillOval(pEntity.getX(), pEntity.getY(), 12, 12);
+      }
+    }
+//    }
+//    System.out.println(InternalModel.getInstance().getGameState());
   }
 
 

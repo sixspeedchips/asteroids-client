@@ -7,11 +7,14 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 
 public class DrawController {
 
   @FXML
   public Label myId;
+  @FXML
+  public VBox root;
   @FXML
   private ModelViewer modelViewer;
 
@@ -21,14 +24,13 @@ public class DrawController {
 
   @FXML
   private void initialize() {
-
-
+    modelViewer.widthProperty().bind(root.widthProperty().subtract(25));
+    modelViewer.heightProperty().bind(root.heightProperty().subtract(50));
   }
 
 
   public void setModel(InternalModel model){
     this.model = model;
-    modelViewer = new ModelViewer();
     updater = new GFXUpdater();
     updater.start();
 

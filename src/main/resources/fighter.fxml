@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <?import io.libsoft.asteroids.view.ModelViewer?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 <VBox xmlns:fx="http://javafx.com/fxml"
   stylesheets="style.css"
-
-  fx:controller="io.libsoft.asteroids.controller.DrawController">
-  <VBox
-    id="labelBox">
-    <GridPane
+  fx:controller="io.libsoft.asteroids.controller.DrawController"
+fx:id="root">
+  <GridPane
+    fx:id="infoBox">
+    <Text
+      GridPane.columnIndex="0"
+      GridPane.rowIndex="0"
+      text="UUID:"
+    />
     <Label
+      GridPane.columnIndex="1"
+      GridPane.rowIndex="0"
       fx:id="myId"/>
-
-  </VBox>
+  </GridPane>
   <ModelViewer fx:id="modelViewer"/>
-
 
 
 </VBox>
