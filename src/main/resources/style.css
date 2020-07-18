@@ -1,0 +1,46 @@
+
+VBox {
+  -fx-padding: 10px;
+  -fx-spacing: 10px;
+}
+
+VBox#labelBox {
+  -fx-spacing: -10px;
+  -fx-background-color: lightgrey;
+  -fx-border-color: black;
+  -fx-label-padding: 1px;
+  -fx-pref-height: 50px;
+  -fx-pref-width: 225px;
+  -fx-horizontal-grid-lines-visible: true;
+}
+
+
+HBox {
+
+  -fx-alignment: center-left;
+  -fx-spacing: 10px;
+}
+
+
+Label {
+  -fx-font-size: 12pt;
+}
+
+Button, ToggleButton {
+  -fx-pref-width: 50px;
+  -fx-pref-height: 25px;
+  -fx-min-width: 25px;
+  -fx-min-height: 25px;
+
+}
+
+Spinner {
+  -fx-pref-width: 200px;
+  -fx-min-width: 100px;
+}
+
+Pane#generationContainer {
+  -fx-background-color: black;
+}
+
+
