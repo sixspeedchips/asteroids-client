@@ -1,6 +1,7 @@
 package io.libsoft.asteroids;
 
 import io.libsoft.asteroids.client.Client;
+import io.libsoft.asteroids.controller.Controller;
 import io.libsoft.asteroids.controller.DrawController;
 import io.libsoft.asteroids.model.InternalModel;
 import java.util.Random;
@@ -34,13 +35,11 @@ public class App extends Application {
   @Override
   public void start(Stage stage) throws Exception {
 
-
+    String username = getParameters().getUnnamed().get(0);
     FXMLLoader fxmlLoader = new FXMLLoader(App.class.getClassLoader().getResource("fighter.fxml"));
-
-
+    InternalModel.getInstance().setUsername(username);
 
     Parent root = fxmlLoader.load();
-
 
     controller = fxmlLoader.getController();
     controller.setModel(InternalModel.getInstance());
@@ -48,16 +47,17 @@ public class App extends Application {
     Scene scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
-//    stage.setMaximized(true);
-//    stage.sizeToScene();
-    stage.setWidth(500);
-    stage.setHeight(500);
+    stage.setTitle(username);
+
+    stage.sizeToScene();
     stage.setOnCloseRequest(event -> {
       System.exit(2);
     });
+    Controller controller = new Controller(scene);
 
-    Client client = new Client("localhost", 10000, InternalModel.getInstance());
+    Client client = new Client("localhost", 10000, InternalModel.getInstance(), controller);
     client.start();
+
 
   }
 

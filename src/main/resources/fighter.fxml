@@ -20,6 +20,17 @@ fx:id="root">
       GridPane.columnIndex="1"
       GridPane.rowIndex="0"
       fx:id="myId"/>
+
+    <Text
+      GridPane.columnIndex="0"
+      GridPane.rowIndex="1"
+      text="Updates/sec:"
+    />
+    <Label
+      GridPane.columnIndex="1"
+      GridPane.rowIndex="1"
+      fx:id="tickSpeed"/>
+
   </GridPane>
   <ModelViewer fx:id="modelViewer"/>
 

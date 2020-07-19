@@ -16,6 +16,8 @@ public class DrawController {
   @FXML
   public VBox root;
   @FXML
+  public Label tickSpeed;
+  @FXML
   private ModelViewer modelViewer;
 
   private GFXUpdater updater;
@@ -24,8 +26,8 @@ public class DrawController {
 
   @FXML
   private void initialize() {
-    modelViewer.widthProperty().bind(root.widthProperty().subtract(25));
-    modelViewer.heightProperty().bind(root.heightProperty().subtract(50));
+//    modelViewer.widthProperty().bind(root.widthProperty().subtract(25));
+//    modelViewer.heightProperty().bind(root.heightProperty().subtract(50));
   }
 
 
@@ -43,8 +45,10 @@ public class DrawController {
       Platform.runLater(() -> {
         myId.setText(newValue.toString());
       });
-
     });
+
+
+
   }
 
 
@@ -53,6 +57,7 @@ public class DrawController {
 
   private void updateView() {
     modelViewer.draw();
+    tickSpeed.setText(String.format("%.2f", InternalModel.getInstance().getTickSpeed()));
   }
 
 

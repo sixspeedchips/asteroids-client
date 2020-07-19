@@ -8,6 +8,8 @@ GridPane#infoBox{
 
   -fx-alignment: top-left;
   -fx-background-color: lightblue;
+  
+  -fx-vgap: 10px;
   -fx-font-size: 120%;
   -fx-border-color: black;
   -fx-indent: 20%;

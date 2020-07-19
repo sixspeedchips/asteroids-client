@@ -18,11 +18,11 @@ public class ModelViewer extends Canvas {
     setOnMouseDragged(event -> {
       System.out.printf("%f, %f\n", event.getX(), event.getY());
     });
+    setHeight(500);
+    setWidth(500);
+
   }
 
-  private void setListeners() {
-
-  }
 
 
   /**

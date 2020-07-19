@@ -9,7 +9,9 @@ public class InternalModel {
 
   private GameState gameState;
   private final SimpleObjectProperty<UUID> uuid;
-
+  private String username;
+  private double tickSpeed;
+  private long prev = 0;
 
   private InternalModel() {
     uuid = new SimpleObjectProperty<>(null);
@@ -24,11 +26,13 @@ public class InternalModel {
     this.uuid.set(uuid);
   }
 
+  public String getUsername() {
+    return username;
+  }
 
-
-
-
-
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
   public static InternalModel getInstance() {
     return InternalModel.InstanceHolder.INSTANCE;
@@ -42,8 +46,19 @@ public class InternalModel {
     this.gameState = gameState;
   }
 
+
+
   public GameState getGameState() {
     return gameState;
+  }
+
+  public void timestampUpdate(long nanoTime) {
+    tickSpeed = 1/((nanoTime - prev) / 1e9);
+    prev = nanoTime;
+  }
+
+  public double getTickSpeed() {
+    return tickSpeed;
   }
 
   private static class InstanceHolder {

@@ -1,19 +1,23 @@
 package io.libsoft.asteroids.client;
 
+import io.libsoft.asteroids.controller.Controls;
 import io.libsoft.asteroids.model.InternalModel;
-import io.libsoft.asteroids.service.GsonService;
 import io.libsoft.messenger.Message;
 import io.libsoft.messenger.MessageType;
+import io.libsoft.messenger.jsonmessages.SetName;
+import io.libsoft.messenger.service.GsonService;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import javafx.scene.input.KeyCode;
 
 public class Client implements Runnable {
 
@@ -21,6 +25,7 @@ public class Client implements Runnable {
   private final String host;
   private final int port;
   private final InternalModel model;
+  private final Controls controls;
 
   private ObjectInputStream ois;
   private ObjectOutputStream oos;
@@ -29,19 +34,32 @@ public class Client implements Runnable {
   private ScheduledFuture<?> connectionService;
   private boolean running;
 
-  public Client(String host, int port, InternalModel model) {
+  public Client(String host, int port, InternalModel model, Controls controls) {
     this.host = host;
     this.port = port;
     this.model = model;
+    this.controls = controls;
     setListeners();
     connect();
 
   }
 
+  void sendCommands() {
+    List<KeyCode> kc = controls.getCurrentKeys();
+    if (kc.isEmpty()){
+      return;
+    }
+    Message m = Message
+        .build()
+        .messageType(MessageType.CONTROL)
+        .payload(GsonService.getInstance().toJson(kc))
+        .sign(uuid);
+    sendMessage(m);
+    kc.clear();
+  }
+
+
   private void setListeners() {
-
-
-
 
   }
 
@@ -76,10 +94,8 @@ public class Client implements Runnable {
   @Override
   public void run() {
     if (uuid == null) {
-      Message m = Message.build().messageType(MessageType.REQ_UUID).sign(uuid);
-      sendMessage(m);
+      setName(model.getUsername());
     }
-
 
     running = true;
     while (running) {
@@ -96,12 +112,13 @@ public class Client implements Runnable {
           sendMessage(r);
           Message m = Message.build().messageType(MessageType.SUBSCRIBE).sign(model.getUUID());
           sendMessage(m);
-        }
-        else if (message.getMessageType() == MessageType.GAME_STATE){
+          es.scheduleAtFixedRate(this::sendCommands, 0, 16, TimeUnit.MILLISECONDS);
+        } else if (message.getMessageType() == MessageType.GAME_STATE) {
+          model.timestampUpdate(System.nanoTime());
           model.setGameState(message.getGameState());
         }
       } catch (IOException e) {
-        e.printStackTrace();
+//        e.printStackTrace();
         System.out.println("Connection closed by server.");
         running = false;
         try {
@@ -123,5 +140,18 @@ public class Client implements Runnable {
   public void start() {
     Thread t = new Thread(this);
     t.start();
+  }
+
+  public void setName(String name) {
+
+    SetName payload = new SetName();
+    payload.setUsername(name);
+    Message m = Message
+        .build()
+        .messageType(MessageType.SET_NAME)
+        .payload(payload.toString())
+        .sign(uuid);
+
+    sendMessage(m);
   }
 }
