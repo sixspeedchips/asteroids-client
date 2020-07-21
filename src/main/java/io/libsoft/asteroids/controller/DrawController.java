@@ -26,8 +26,7 @@ public class DrawController {
 
   @FXML
   private void initialize() {
-//    modelViewer.widthProperty().bind(root.widthProperty().subtract(25));
-//    modelViewer.heightProperty().bind(root.heightProperty().subtract(50));
+
   }
 
 

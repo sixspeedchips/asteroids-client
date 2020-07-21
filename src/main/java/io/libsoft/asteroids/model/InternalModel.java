@@ -1,6 +1,8 @@
 package io.libsoft.asteroids.model;
 
+import io.libsoft.messenger.Entity;
 import io.libsoft.messenger.GameState;
+import java.util.List;
 import java.util.UUID;
 import javafx.beans.property.SimpleObjectProperty;
 
@@ -12,6 +14,8 @@ public class InternalModel {
   private String username;
   private double tickSpeed;
   private long prev = 0;
+  private List<Entity> prevEntities;
+  private List<Entity> entities;
 
   private InternalModel() {
     uuid = new SimpleObjectProperty<>(null);
@@ -42,14 +46,18 @@ public class InternalModel {
     return uuid.get();
   }
 
-  public void setGameState(GameState gameState) {
-    this.gameState = gameState;
+  public void setEntityState(List<Entity> entities) {
+    prevEntities = this.entities;
+    this.entities = entities;
   }
 
 
+  public List<Entity> getEntities() {
+    return entities;
+  }
 
-  public GameState getGameState() {
-    return gameState;
+  public List<Entity> getPrevEntities() {
+    return prevEntities;
   }
 
   public void timestampUpdate(long nanoTime) {

@@ -2,6 +2,7 @@ package io.libsoft.asteroids.client;
 
 import io.libsoft.asteroids.controller.Controls;
 import io.libsoft.asteroids.model.InternalModel;
+import io.libsoft.messenger.Entity;
 import io.libsoft.messenger.Message;
 import io.libsoft.messenger.MessageType;
 import io.libsoft.messenger.jsonmessages.SetName;
@@ -11,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Executors;
@@ -46,7 +48,7 @@ public class Client implements Runnable {
 
   void sendCommands() {
     List<KeyCode> kc = controls.getCurrentKeys();
-    if (kc.isEmpty()){
+    if (kc.isEmpty()) {
       return;
     }
     Message m = Message
@@ -115,7 +117,13 @@ public class Client implements Runnable {
           es.scheduleAtFixedRate(this::sendCommands, 0, 16, TimeUnit.MILLISECONDS);
         } else if (message.getMessageType() == MessageType.GAME_STATE) {
           model.timestampUpdate(System.nanoTime());
-          model.setGameState(message.getGameState());
+
+          List<Entity> entities = new LinkedList<>();
+          for (String e : message.getGameState().getPEntities()) {
+            entities.add(GsonService.getAnnotater().fromJson(e, Entity.class));
+          }
+          System.out.println(GsonService.getPprinter().toJson(entities));
+          model.setEntityState(entities);
         }
       } catch (IOException e) {
 //        e.printStackTrace();
